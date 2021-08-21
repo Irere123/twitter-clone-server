@@ -1,0 +1,6 @@
+type Follow {
+  id: ID!
+  followedId: ID!
+  followerId: ID!
+  createdAt: String!
+}

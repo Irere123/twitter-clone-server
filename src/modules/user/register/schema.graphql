@@ -1,0 +1,14 @@
+input RegisterInput {
+  firstName: String!
+  lastName: String!
+  password: String!
+}
+
+type RegisterResponse {
+  ok: Boolean!
+  errors: [Error!]!
+}
+
+type Mutation {
+  register(input: RegisterInput!): RegisterResponse!
+}

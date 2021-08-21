@@ -1,0 +1,4 @@
+type Query {
+  allTweets: [Tweet!]!
+  getTweet(tweetId: ID!): Tweet!
+}

@@ -1,0 +1,14 @@
+input createCommentInput {
+  body: String!
+  tweetId: ID!
+  userId: ID!
+}
+
+type createCommentResponse {
+  ok: Boolean!
+  errors: [Error!]!
+}
+
+type Mutation {
+  createComment(input: createCommentInput!): createCommentResponse!
+}

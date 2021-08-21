@@ -1,0 +1,13 @@
+input CreateTweetInput {
+  body: String!
+  userId: ID!
+}
+
+type CreateTweetResponse {
+  ok: Boolean!
+  errors: [Error!]!
+}
+
+type Mutation {
+  createTweet(input: CreateTweetInput!): CreateTweetResponse!
+}

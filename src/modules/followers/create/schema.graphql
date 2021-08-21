@@ -1,0 +1,12 @@
+input FollowInput {
+  followingId: ID!
+}
+
+type FollowResponse {
+  ok: Boolean!
+  errors: [Error!]!
+}
+
+type Mutation {
+  follow(input: FollowInput!): FollowResponse!
+}

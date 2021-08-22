@@ -3,6 +3,7 @@ type User {
   firstName: String!
   lastName: String!
   password: String!
+  bio: String
   displayName: String!
   createdAt: String!
 }

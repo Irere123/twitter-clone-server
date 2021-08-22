@@ -1,4 +1,5 @@
 type Query {
   allUsers: [User!]!
   getUser(userId: ID!): User!
+  lastestTweets(userId: ID!): [Tweet!]!
 }

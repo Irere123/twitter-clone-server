@@ -20,19 +20,16 @@ export class User extends BaseEntity {
   count: number;
 
   @Column({ type: "varchar" })
-  firstName: string;
-
-  @Column({ type: "varchar" })
-  lastName: string;
-
-  @Column({ type: "varchar" })
-  displayName: string;
+  username: string;
 
   @Column({ type: "text", nullable: true })
   bio: string;
 
   @Column({ type: "text" })
   password: string;
+
+  @Column({ type: "varchar"})
+  displayName: string
 
   @CreateDateColumn()
   createdAt: string;
@@ -51,6 +48,6 @@ export class User extends BaseEntity {
 
   @BeforeInsert()
   addDName() {
-    this.displayName = `${this.firstName}COOL`;
+    this.displayName = `${this.username}COOL`;
   }
 }

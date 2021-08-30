@@ -1,15 +1,14 @@
-import { MutationResolvers } from "server/src/types";
+// import { MutationResolvers } from "server/src/types";
 import { User } from "../../../entity/User";
 import * as bcrypt from "bcryptjs";
 
-export const resolvers: MutationResolvers.Resolvers = {
-  register: async (_, { input: { firstName, lastName, password } }) => {
+export const resolvers = {
+  register: async (_: any, { input: { username, password } }: any) => {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     try {
       const user = await User.create({
-        firstName,
-        lastName,
+        username,
         password: hashedPassword,
       });
 

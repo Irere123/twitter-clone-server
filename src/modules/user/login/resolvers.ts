@@ -18,10 +18,9 @@ export const resolvers = {
     const user = await getConnection()
       .getRepository(User)
       .createQueryBuilder("user")
-      .where("user.firstName = :firstName", {
-        firstName: input.firstNameOrLast,
+      .where("user.username= :username", {
+        username: input.username,
       })
-      .orWhere("user.lastName = :lastName", { lastName: input.firstNameOrLast })
       .getOne();
 
     if (!user) {

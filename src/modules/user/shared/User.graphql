@@ -1,8 +1,6 @@
 type User {
   id: ID!
-  firstName: String!
-  lastName: String!
-  password: String!
+  username: String!
   bio: String
   displayName: String!
   createdAt: String!

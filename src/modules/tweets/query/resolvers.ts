@@ -3,6 +3,7 @@ import { Tweet } from "../../../entity/Tweet";
 import { QueryResolvers } from "server/src/types";
 
 export const resolvers: QueryResolvers.Resolvers = {
+  // @ts-ignore
   allTweets: async () => await Tweet.find({ order: { createdAt: "DESC" } }),
 };
 

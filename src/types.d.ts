@@ -8,8 +8,6 @@ export interface CreateCommentInput {
 
 export interface FollowInput {
   followingId: string;
-
-  followerId: string;
 }
 
 export interface CreateTweetInput {
@@ -19,15 +17,13 @@ export interface CreateTweetInput {
 }
 
 export interface LoginInput {
-  firstNameOrLast: string;
+  username: string;
 
   password: string;
 }
 
 export interface RegisterInput {
-  firstName: string;
-
-  lastName: string;
+  username: string;
 
   password: string;
 }
@@ -39,13 +35,19 @@ export interface RegisterInput {
 export interface Query {
   allComments: Comment[];
 
+  isFollowedBy: Follow[];
+
   allTweets: Tweet[];
 
   getTweet: Tweet;
 
+  me?: User | null;
+
   allUsers: User[];
 
   getUser: User;
+
+  lastestTweets: Tweet[];
 }
 
 export interface Comment {
@@ -63,13 +65,21 @@ export interface Comment {
 export interface User {
   id: string;
 
-  firstName: string;
+  username: string;
 
-  lastName: string;
-
-  password: string;
+  bio?: string | null;
 
   displayName: string;
+
+  createdAt: string;
+}
+
+export interface Follow {
+  id: string;
+
+  followedId: string;
+
+  followerId: string;
 
   createdAt: string;
 }
@@ -89,7 +99,7 @@ export interface Tweet {
 export interface Mutation {
   createComment: CreateCommentResponse;
 
-  Follow: FollowResponse;
+  follow: FollowResponse;
 
   createTweet: CreateTweetResponse;
 
@@ -147,6 +157,9 @@ export interface GetTweetQueryArgs {
 export interface GetUserQueryArgs {
   userId: string;
 }
+export interface LastestTweetsQueryArgs {
+  userId: string;
+}
 export interface CreateCommentMutationArgs {
   input: CreateCommentInput;
 }
@@ -202,13 +215,19 @@ export namespace QueryResolvers {
   export interface Resolvers<Context = {}, TypeParent = {}> {
     allComments?: AllCommentsResolver<Comment[], TypeParent, Context>;
 
+    isFollowedBy?: IsFollowedByResolver<Follow[], TypeParent, Context>;
+
     allTweets?: AllTweetsResolver<Tweet[], TypeParent, Context>;
 
     getTweet?: GetTweetResolver<Tweet, TypeParent, Context>;
 
+    me?: MeResolver<User | null, TypeParent, Context>;
+
     allUsers?: AllUsersResolver<User[], TypeParent, Context>;
 
     getUser?: GetUserResolver<User, TypeParent, Context>;
+
+    lastestTweets?: LastestTweetsResolver<Tweet[], TypeParent, Context>;
   }
 
   export type AllCommentsResolver<
@@ -220,6 +239,11 @@ export namespace QueryResolvers {
     tweetId: string;
   }
 
+  export type IsFollowedByResolver<
+    R = Follow[],
+    Parent = {},
+    Context = {}
+  > = Resolver<R, Parent, Context>;
   export type AllTweetsResolver<
     R = Tweet[],
     Parent = {},
@@ -235,6 +259,11 @@ export namespace QueryResolvers {
     tweetId: string;
   }
 
+  export type MeResolver<R = User | null, Parent = {}, Context = {}> = Resolver<
+    R,
+    Parent,
+    Context
+  >;
   export type AllUsersResolver<
     R = User[],
     Parent = {},
@@ -247,6 +276,15 @@ export namespace QueryResolvers {
     GetUserArgs
   >;
   export interface GetUserArgs {
+    userId: string;
+  }
+
+  export type LastestTweetsResolver<
+    R = Tweet[],
+    Parent = {},
+    Context = {}
+  > = Resolver<R, Parent, Context, LastestTweetsArgs>;
+  export interface LastestTweetsArgs {
     userId: string;
   }
 }
@@ -295,11 +333,9 @@ export namespace UserResolvers {
   export interface Resolvers<Context = {}, TypeParent = User> {
     id?: IdResolver<string, TypeParent, Context>;
 
-    firstName?: FirstNameResolver<string, TypeParent, Context>;
+    username?: UsernameResolver<string, TypeParent, Context>;
 
-    lastName?: LastNameResolver<string, TypeParent, Context>;
-
-    password?: PasswordResolver<string, TypeParent, Context>;
+    bio?: BioResolver<string | null, TypeParent, Context>;
 
     displayName?: DisplayNameResolver<string, TypeParent, Context>;
 
@@ -311,18 +347,13 @@ export namespace UserResolvers {
     Parent,
     Context
   >;
-  export type FirstNameResolver<
+  export type UsernameResolver<
     R = string,
     Parent = User,
     Context = {}
   > = Resolver<R, Parent, Context>;
-  export type LastNameResolver<
-    R = string,
-    Parent = User,
-    Context = {}
-  > = Resolver<R, Parent, Context>;
-  export type PasswordResolver<
-    R = string,
+  export type BioResolver<
+    R = string | null,
     Parent = User,
     Context = {}
   > = Resolver<R, Parent, Context>;
@@ -334,6 +365,39 @@ export namespace UserResolvers {
   export type CreatedAtResolver<
     R = string,
     Parent = User,
+    Context = {}
+  > = Resolver<R, Parent, Context>;
+}
+
+export namespace FollowResolvers {
+  export interface Resolvers<Context = {}, TypeParent = Follow> {
+    id?: IdResolver<string, TypeParent, Context>;
+
+    followedId?: FollowedIdResolver<string, TypeParent, Context>;
+
+    followerId?: FollowerIdResolver<string, TypeParent, Context>;
+
+    createdAt?: CreatedAtResolver<string, TypeParent, Context>;
+  }
+
+  export type IdResolver<R = string, Parent = Follow, Context = {}> = Resolver<
+    R,
+    Parent,
+    Context
+  >;
+  export type FollowedIdResolver<
+    R = string,
+    Parent = Follow,
+    Context = {}
+  > = Resolver<R, Parent, Context>;
+  export type FollowerIdResolver<
+    R = string,
+    Parent = Follow,
+    Context = {}
+  > = Resolver<R, Parent, Context>;
+  export type CreatedAtResolver<
+    R = string,
+    Parent = Follow,
     Context = {}
   > = Resolver<R, Parent, Context>;
 }
@@ -386,7 +450,7 @@ export namespace MutationResolvers {
       Context
     >;
 
-    Follow?: FollowResolver<FollowResponse, TypeParent, Context>;
+    follow?: FollowResolver<FollowResponse, TypeParent, Context>;
 
     createTweet?: CreateTweetResolver<CreateTweetResponse, TypeParent, Context>;
 

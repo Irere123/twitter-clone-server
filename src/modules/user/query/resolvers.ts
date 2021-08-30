@@ -3,8 +3,9 @@ import { User } from "../../../entity/User";
 import { Tweet } from "../../../entity/Tweet";
 
 export const resolvers: QueryResolvers.Resolvers = {
+  // @ts-ignore
   allUsers: async () => {
-    const users = await User.find();
+    const users = await User.find({ order: { createdAt: "DESC"}});
 
     return users;
   },

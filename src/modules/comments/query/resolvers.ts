@@ -3,6 +3,7 @@ import { QueryResolvers } from "server/src/types";
 import { Comment } from "../../../entity/Comment";
 
 export const resolvers: QueryResolvers.Resolvers = {
+  // @ts-ignore
   allComments: async (_, { tweetId }) => {
     const comments = await Comment.find({ where: { tweetId } });
     return comments;

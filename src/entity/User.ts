@@ -19,7 +19,7 @@ export class User extends BaseEntity {
   @Column({ type: "int", default: 0 })
   count: number;
 
-  @Column({ type: "varchar" })
+  @Column({ type: "varchar", unique: true })
   username: string;
 
   @Column({ type: "text", nullable: true })
@@ -28,8 +28,8 @@ export class User extends BaseEntity {
   @Column({ type: "text" })
   password: string;
 
-  @Column({ type: "varchar"})
-  displayName: string
+  @Column({ type: "varchar" })
+  displayName: string;
 
   @CreateDateColumn()
   createdAt: string;

@@ -3,7 +3,7 @@
   "host": "localhost",
   "port": 5432,
   "username": "postgres",
-  "password": "2006",
+  "password": "postgres",
   "database": "tweets",
   "synchronize": true,
   "logging": true,

@@ -8,6 +8,8 @@
     "@types/cookie-parser": "^1.4.2",
     "@types/jsonwebtoken": "^8.5.5",
     "@types/node": "^8.0.29",
+    "@types/express": "^4.17.13",
+    "@types/graphql": "^14.5.0",
     "graphql-code-generator": "0.16.0",
     "graphql-codegen-typescript-common": "0.14.1",
     "graphql-codegen-typescript-resolvers": "0.14.1",
@@ -18,8 +20,6 @@
   "dependencies": {
     "@graphql-modules/epoxy": "0.2.0",
     "@graphql-modules/sonar": "0.2.0",
-    "@types/express": "^4.17.13",
-    "@types/graphql": "^14.5.0",
     "apollo-server": "^3.0.2",
     "apollo-server-express": "2.3.2",
     "bcryptjs": "^2.4.3",
@@ -35,7 +35,7 @@
   },
   "scripts": {
     "start": "nodemon --exec ts-node src/index.ts",
-    "build": "tsc -b",
+    "watch": "tsc -w",
     "generate": "gql-gen"
   }
 }
